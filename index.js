@@ -35,10 +35,11 @@ const Course = mongoose.model('Course', courseSchema);
 
 async function getCourses() {
   const courses = await Course
-    .find({ name: 'Self' }, { isPublished: true })
-    .limit(1)
+    .find({ name: /.*ples.*/ })
+    .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 })
+    .count()
   console.log('courses', courses);
 }
 
