@@ -47,23 +47,32 @@ const Course = mongoose.model('Course', courseSchema);
 // }
 // getCourses();
 
-async function updateCourse(id) {
-  // const course = await Course.findById(id);
-  const course = await Course.updateOne({
-    _id: id
-  }, {
-    isPublished: true,
-    author: 'Self again'
-  });
-  if (!course) return;
-  // course.isPublished = true;
-  // course.author = 'Another';
-  // course.set({
-  //   isPublished: true,
-  //   author: 'Another author'
-  // });
-  // const result = await course.save();
-  console.log('Updated:', course)
-}
+// async function updateCourse(id) {
+//   // const course = await Course.findById(id);
+//   const course = await Course.updateOne({
+//     _id: id
+//   }, {
+//     isPublished: true,
+//     author: 'Self again'
+//   });
+//   if (!course) return;
 
-updateCourse('620b13123bcf1aba2cc7faa1');
+//   // course.isPublished = true;
+//   // course.author = 'Another';
+//   // course.set({
+//   //   isPublished: true,
+//   //   author: 'Another author'
+//   // });
+//   // const result = await course.save();
+//   console.log('Updated:', course)
+// }
+
+// updateCourse('620b13123bcf1aba2cc7faa1');
+
+async function removeCourse(id) {
+  const course = await Course.deleteOne({
+    _id: id
+  });
+  console.log(course);
+}
+removeCourse('620b13123bcf1aba2cc7faa1');
