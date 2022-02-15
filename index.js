@@ -9,7 +9,7 @@ mongoose.connect(dbConnect)
   .catch(err => console.log('error', err.message));
 
 const courseSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
@@ -18,34 +18,35 @@ const courseSchema = new mongoose.Schema({
 const Course = mongoose.model('Course', courseSchema);
 
 
-// async function createCourse() {
-//   const course = new Course({
-//     name: 'My MongoDB Examples',
-//     author: 'Self',
-//     tags: ['mongo', 'database', 'backend'],
-//     isPublished: true
-//   });
+async function createCourse() {
+  const course = new Course({
+    // name: 'My MongoDB Examples',
+    author: 'Self',
+    tags: ['mongo', 'database', 'backend'],
+    isPublished: true
+  });
 
-//   const result = await course.save();
-//   console.log(result);
+  try {
+    await course.validate()
+    // const result = await course.save();
+    // console.log(result);
+  } catch (ex) {
+    console.log(ex.message);
+  }
 
-// }
+}
 
-// createCourse();
+createCourse();
 
-// async function getCourses() {
-//   const pageNumber = 2;
-//   const pageSize = 10;
-//   // /api/courses?pageNumber=2&pageSize=10
-//   const courses = await Course
-//     .find({ name: /.*ples.*/ })
-//     .skip((pageNumber - 1) * pageSize)
-//     .limit(pageSize)
-//     .sort({ name: 1 })
-//     .select({ name: 1, tags: 1 })
-//   console.log('courses', courses);
-// }
-// getCourses();
+async function getCourses() {
+  // /api/courses?pageNumber=2&pageSize=10
+  const courses = await Course
+    .find({ name: /.*ples.*/ })
+    .sort({ name: 1 })
+    .select(['name'])
+  console.log('courses', courses);
+}
+getCourses();
 
 // async function updateCourse(id) {
 //   // const course = await Course.findById(id);
@@ -69,10 +70,10 @@ const Course = mongoose.model('Course', courseSchema);
 
 // updateCourse('620b13123bcf1aba2cc7faa1');
 
-async function removeCourse(id) {
-  const course = await Course.deleteOne({
-    _id: id
-  });
-  console.log(course);
-}
-removeCourse('620b13123bcf1aba2cc7faa1');
+// async function removeCourse(id) {
+//   const course = await Course.deleteOne({
+//     _id: id
+//   });
+//   console.log(course);
+// }
+// removeCourse('620b13123bcf1aba2cc7faa1');
