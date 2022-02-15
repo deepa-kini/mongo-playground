@@ -18,16 +18,28 @@ const courseSchema = new mongoose.Schema({
 const Course = mongoose.model('Course', courseSchema);
 
 
-async function createCourse() {
-  const course = new Course({
-    name: 'My MongoDB Examples',
-    author: 'Self',
-    tags: ['mongo', 'database', 'backend'],
-    isPublished: true
-  });
+// async function createCourse() {
+//   const course = new Course({
+//     name: 'My MongoDB Examples',
+//     author: 'Self',
+//     tags: ['mongo', 'database', 'backend'],
+//     isPublished: true
+//   });
 
-  const result = await course.save();
-  console.log(result);
+//   const result = await course.save();
+//   console.log(result);
+
+// }
+
+// createCourse();
+
+async function getCourses() {
+  const courses = await Course
+    .find({ name: 'Self' }, { isPublished: true })
+    .limit(1)
+    .sort({ name: 1 })
+    .select({ name: 1, tags: 1 })
+  console.log('courses', courses);
 }
 
-createCourse();
+getCourses();
