@@ -1,0 +1,1 @@
+This project is created to play around with MongoDB and mongoose.
