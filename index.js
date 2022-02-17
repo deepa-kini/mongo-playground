@@ -46,7 +46,7 @@ async function createCourse() {
     name: 'My MongoDB Examples',
     category: 'web',
     author: 'Self',
-    tags: [],
+    tags: ['mongo'],
     isPublished: true,
     price: 15
   });
