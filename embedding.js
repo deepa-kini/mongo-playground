@@ -1,35 +1,22 @@
 const mongoose = require('mongoose');
 const config = require('config');
 
-
 const password = config.get('db.password');
 const dbConnect = `mongodb+srv://root:${password}@playground.mryia.mongodb.net/playground?retryWrites=true&w=majority`
 mongoose.connect(dbConnect)
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('error', err.message));
 
-
-const Author = mongoose.model('Author', new mongoose.Schema({
+const authorSchema = new mongoose.Schema({
   name: String,
   bio: String,
   website: String
-}));
+});
+const Author = mongoose.model('Author', authorSchema);
 const Course = mongoose.model('Course', new mongoose.Schema({
   name: String,
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Author'
-  }
+  author: authorSchema
 }));
-async function createAuthor(name, bio, website) {
-  const author = new Author({
-    name,
-    bio,
-    website
-  });
-  const result = await author.save();
-  console.log(result);
-}
 async function createCourse(name, author) {
   const course = new Course({
     name,
@@ -39,12 +26,7 @@ async function createCourse(name, author) {
   console.log(result);
 }
 async function listCourses() {
-  const courses = await Course
-    .find()
-    .populate('author', 'name -_id')
-    .select('name author');
+  const courses = await Course.find();
   console.log(courses);
 }
-// createAuthor('Dee', 'My text', 'Junk stuff');
-// createCourse('Node Course', '6212cd6122ce553f933c6c7b')
-listCourses();
+createCourse('Node Course', new Author({ name: 'Dee' }));
