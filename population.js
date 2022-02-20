@@ -16,6 +16,7 @@ const Author = mongoose.model('Author', new mongoose.Schema({
 }));
 const Course = mongoose.model('Course', new mongoose.Schema({
   name: String,
+  author: String
 }));
 async function createAuthor(name, bio, website) {
   const author = new Author({
@@ -37,7 +38,8 @@ async function createCourse(name, author) {
 async function listCourses() {
   const courses = await Course
     .find()
-    .select('name');
+    // .populate('author')
+    .select('name author');
   console.log(courses);
 }
 // createAuthor('Dee', 'My text', 'Junk stuff');
