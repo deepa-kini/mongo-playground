@@ -15,12 +15,12 @@ const authorSchema = new mongoose.Schema({
 const Author = mongoose.model('Author', authorSchema);
 const Course = mongoose.model('Course', new mongoose.Schema({
   name: String,
-  author: authorSchema
+  authors: [authorSchema]
 }));
-async function createCourse(name, author) {
+async function createCourse(name, authors) {
   const course = new Course({
     name,
-    author
+    authors
   });
   const result = await course.save();
   console.log(result);
@@ -29,7 +29,6 @@ async function listCourses() {
   const courses = await Course.find();
   console.log(courses);
 }
-// createCourse('Node Course', new Author({ name: 'Dee' }));
 async function updateAuthor(courseId) {
   // const course = await Course.findById(courseId);
   // course.author.name = 'Deep';
@@ -43,4 +42,8 @@ async function updateAuthor(courseId) {
   });
 }
 
-updateAuthor('6212d23be27ff361cbcb930f');
+createCourse('Node Course', [
+  new Author({ name: 'Dee' }),
+  new Author({ name: 'Deeps' })
+]);
+// updateAuthor('6212d23be27ff361cbcb930f');
