@@ -42,8 +42,27 @@ async function updateAuthor(courseId) {
   });
 }
 
-createCourse('Node Course', [
-  new Author({ name: 'Dee' }),
-  new Author({ name: 'Deeps' })
-]);
+async function addAuthor(courseId, author) {
+  const course = await Course.findById(courseId);
+  course.authors.push(author);
+  course.save()
+}
+
+async function removeAuthor(courseId, authorId) {
+  const course = await Course.findById(courseId);
+  const author = course.authors.id(authorId);
+  author.remove();
+  course.save();
+  console.log('Removed Author', author);
+}
+
+
+// createCourse('Node Course', [
+//   new Author({ name: 'Dee' }),
+//   new Author({ name: 'Deeps' })
+// ]);
+
 // updateAuthor('6212d23be27ff361cbcb930f');
+
+// addAuthor('6212dd484dfb0f794857133c', new Author({ name: 'Mame' }));
+removeAuthor('6212dd484dfb0f794857133c', '6212dde1cec9f23142638d1d');
